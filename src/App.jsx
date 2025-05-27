@@ -3,44 +3,47 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
-function getCookie(name) {
+function getUserData() {
   let matches = document.cookie.match(new RegExp(
-    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    "(?:^|; )" + 'userData'.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
   ));
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-function setCookie(name, value, age=0) {
+function setUserData(userName, userSurname, age=120) {
 
-  let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value) + "; max-age=" + age;
-
-  for (let optionKey in options) {
-    updatedCookie += "; " + optionKey;
-    let optionValue = options[optionKey];
-    if (optionValue !== true) {
-      updatedCookie += "=" + optionValue;
-    }
-  }
+  let updatedCookie = encodeURIComponent("userData") + "=" + encodeURIComponent(userName + ' ' + userSurname) + "; max-age=" + age;
 
   document.cookie = updatedCookie;
 }
 
 function RegistrationForm() {
 
-  const [inputValue, setInputValue] = useState('');
+  const [Name, setName] = useState('');
+  const [Surname, setSurname] = useState('');
 
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const handleSurnameChange = (event) => {
+    setSurname(event.target.value);
   };
 
   function handleClick() {
-    alert(inputValue);
+    setUserData(Name, Surname)
+
+    alert(Name + Surname);
+    alert(getUserData());
   }
 
   return (
     <>
-      Придумайте свой UID
-      <input type="" value={inputValue} onChange={handleInputChange} />
+      Имя
+      <input type="" value={Name} onChange={handleNameChange} />
+      Фамилия
+      <input type="" value={Surname} onChange={handleSurnameChange} />
+
       <button onClick={handleClick}>
         Зарегистрироваться
       </button>
@@ -51,7 +54,6 @@ function RegistrationForm() {
 
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
