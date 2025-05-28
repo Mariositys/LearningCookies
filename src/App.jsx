@@ -15,6 +15,10 @@ function setUserData(userName, userSurname, age=30) {
   document.cookie = updatedCookie;
 }
 
+function deleteUserData() {
+  document.cookie = encodeURIComponent("userData") + "=" + encodeURIComponent(' ') + "; max-age=" + '0';
+}
+
 function RegistrationForm({updateUserData}) {
   const [Name, setName] = useState('');
   const [Surname, setSurname] = useState('');
@@ -103,6 +107,11 @@ function App() {
   const [uData, setuData] = useState(getUserData())
   console.log('rerender')
 
+  function handleClick() {
+    deleteUserData();
+    setuData(undefined);
+  }
+
   if (uData === undefined) {
     return (
         <RegistrationForm 
@@ -112,10 +121,17 @@ function App() {
   }
   else {
     return(
-      <div>
-        Добро пожаловать {uData}
-        <AdditionalData />
-      </div>
+      <>
+        <div>
+          Добро пожаловать {uData}
+          <AdditionalData />
+        </div>
+        <div>
+          <button onClick={handleClick}>
+            Выйти
+          </button>
+        </div>
+      </>
     )
   }
   
