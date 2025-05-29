@@ -37,16 +37,23 @@ function RegistrationForm({updateUserData}) {
   }
 
   return (
-    <>
-      Имя
-      <input type="" value={Name} onChange={handleNameChange} />
-      Фамилия
-      <input type="" value={Surname} onChange={handleSurnameChange} />
+    <div>
+      <div>
+        <p>Имя</p>
+        <input type="" value={Name} onChange={handleNameChange} />
+      </div>
+      
+      <div>
+        <p>Фамилия</p>
+        <input type="" value={Surname} onChange={handleSurnameChange} />
+      </div>
 
-      <button onClick={handleClick}>
-        Зарегистрироваться
-      </button>
-    </>
+      <div className='button'>
+        <button onClick={handleClick}>
+          Зарегистрироваться
+        </button>
+      </div>
+    </div>
   )
 }
 
@@ -56,15 +63,14 @@ function AdditionalData() {
   const [error, setError] = useState(null);
 
   let loadData = async () => {
-      console.log('loading data');
-      let promise = await fetch('https://randomuser.me/api/')
+      await fetch('https://randomuser.me/api/')
         .then((result) => {
           result.json()
             .then(result => setData(result.results[0]));
             setIsLoading(false);
         }, 
         (error) => {
-          setError(error);
+          setError(error.message);
           setIsLoading(false);
         });
   };
@@ -72,7 +78,6 @@ function AdditionalData() {
 
   
   useEffect(() => {
-    console.log('FIRING')
     if (!data && !error) {
       setIsLoading(true);
       loadData();
@@ -95,7 +100,7 @@ function AdditionalData() {
     }
     else {
       return (
-        <div>Не получилось загрузить. Ошибка {error}</div>
+        <div>Не получилось загрузить: {error}</div>
       )
     }
   }
@@ -105,7 +110,6 @@ function AdditionalData() {
 
 function App() {
   const [uData, setuData] = useState(getUserData())
-  console.log('rerender')
 
   function handleClick() {
     deleteUserData();
@@ -121,17 +125,17 @@ function App() {
   }
   else {
     return(
-      <>
+      <div>
         <div>
-          Добро пожаловать {uData}
+          <p>Добро пожаловать {uData}</p>
           <AdditionalData />
         </div>
-        <div>
+        <div className='button'>
           <button onClick={handleClick}>
             Выйти
           </button>
         </div>
-      </>
+      </div>
     )
   }
   
