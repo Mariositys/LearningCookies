@@ -20,6 +20,7 @@ function deleteUserData() {
 }
 
 function RegistrationForm({updateUserData}) {
+  const [isWrongInput, setIsWrongInput] = useState(false);
   const [Name, setName] = useState('');
   const [Surname, setSurname] = useState('');
 
@@ -32,12 +33,19 @@ function RegistrationForm({updateUserData}) {
   };
 
   function handleClick() {
+    if (Name == '' || Surname == '') {
+      setIsWrongInput(true);
+      return;
+    }
+    else {
+      setIsWrongInput(false);
+    }
     setUserData(Name, Surname);
     updateUserData(getUserData())
   }
 
   return (
-    <div>
+    <div className='fade-in'>
       <div>
         <p>Имя</p>
         <input type="" value={Name} onChange={handleNameChange} />
@@ -52,6 +60,7 @@ function RegistrationForm({updateUserData}) {
         <button onClick={handleClick}>
           Зарегистрироваться
         </button>
+        <p>{isWrongInput ? "Введите что-нибудь" : ''}</p>
       </div>
     </div>
   )
@@ -125,7 +134,7 @@ function App() {
   }
   else {
     return(
-      <div>
+      <div className='fade-in'>
         <div>
           <p>Добро пожаловать {uData}</p>
           <AdditionalData />
